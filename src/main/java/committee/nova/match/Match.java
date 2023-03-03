@@ -29,7 +29,7 @@ public class Match<T> {
     }
 
     /**
-     * Adds a case into this {@link Match}, whose execution will end if the predicate returns true.
+     * Adds a case into this {@link Match}, whose execution will end if the predicate returns false.
      *
      * @param <U>         The target type of pattern matching.
      * @param targetClass The class of the target type.
