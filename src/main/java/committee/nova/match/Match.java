@@ -14,33 +14,33 @@ public class Match<T> {
         this.object = object;
     }
 
-    public static <U> Match<U> from(U target) {
-        return new Match<>(target);
+    public static <U> Match<U> from(U object) {
+        return new Match<>(object);
     }
 
     /**
      * Adds a case into this {@link Match}, whose execution will end if the predicate returns true.
      *
-     * @param <U>       The target type of pattern matching.
-     * @param cls       The class of the target type.
-     * @param predicate A predicate of the target type. If the object matches the type, the predicate will run.
+     * @param <U>         The target type of pattern matching.
+     * @param targetClass The class of the target type.
+     * @param predicate   A predicate of the target type. If the object matches the type, the predicate will run.
      * @return The {@link Match} instance with this case added.
      */
-    public <U extends T> Match<T> inCase(Class<U> cls, Predicate<U> predicate) {
-        cases.add(new Case<>(cls, predicate));
+    public <U extends T> Match<T> inCase(Class<U> targetClass, Predicate<U> predicate) {
+        cases.add(new Case<>(targetClass, predicate));
         return this;
     }
 
     /**
      * Adds a "break" case into this {@link Match}, whose execution will end if the matching is success.
      *
-     * @param <U>      The target type of pattern matching.
-     * @param cls      The class of the target type.
-     * @param consumer A consumer of the target type. If the object matches the type, the consumer will run.
+     * @param <U>         The target type of pattern matching.
+     * @param targetClass The class of the target type.
+     * @param consumer    A consumer of the target type. If the object matches the type, the consumer will run.
      * @return The {@link Match} instance with this "break" case added.
      */
-    public <U extends T> Match<T> brk(Class<U> cls, Consumer<U> consumer) {
-        return inCase(cls, t -> {
+    public <U extends T> Match<T> brk(Class<U> targetClass, Consumer<U> consumer) {
+        return inCase(targetClass, t -> {
             consumer.accept(t);
             return false;
         });
@@ -49,13 +49,13 @@ public class Match<T> {
     /**
      * Adds a "pass" case into this {@link Match}, whose execution will continue after the matching.
      *
-     * @param <U>      The target type of pattern matching.
-     * @param cls      The class of the target type.
-     * @param consumer A consumer of the target type. If the object matches the type, the consumer will run.
+     * @param <U>         The target type of pattern matching.
+     * @param targetClass The class of the target type.
+     * @param consumer    A consumer of the target type. If the object matches the type, the consumer will run.
      * @return The {@link Match} instance with this "pass" case added.
      */
-    public <U extends T> Match<T> pass(Class<U> cls, Consumer<U> consumer) {
-        return inCase(cls, t -> {
+    public <U extends T> Match<T> pass(Class<U> targetClass, Consumer<U> consumer) {
+        return inCase(targetClass, t -> {
             consumer.accept(t);
             return true;
         });
