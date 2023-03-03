@@ -5,6 +5,16 @@ import java.util.Queue;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/**
+ * What {@link Match} does is similar to Scala's "match" keyword.
+ * A {@link Match} instance contains: 1. An object to match; 2. The {@link Case}s to be tested on the object.
+ * The user can add {@link Case} to the instance via {@link Match#inCase(Class, Predicate)}, {@link Match#pass(Class, Consumer)},
+ * or {@link Match#brk(Class, Consumer)}.
+ * After the method {@link Match#exec()} is called, the {@link Case}s will be tested in the order in which it was added to the Queue.
+ * The user can also specify whether the {@link Match}'s execution process terminates after a Case has been checked.
+ *
+ * @param <T> The type of the object to match.
+ */
 @SuppressWarnings({"unchecked", "unused"})
 public class Match<T> {
     private final Queue<Case<? extends T>> cases = new ArrayDeque<>();
@@ -62,7 +72,7 @@ public class Match<T> {
     }
 
     /**
-     * Execute the {@link Case}s on the target. If the predicate in a Case returns false, the execution ends.
+     * Execute the {@link Case}s on the target. If the predicate in a Case returns false, the execution terminates.
      */
     public void exec() {
         for (Case<? extends T> $case : cases) if (!$case.run(object)) return;
